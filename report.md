@@ -38,7 +38,7 @@ To enforce continued exploration the greedy policy is ameliorated by a factor th
 The mathematical basis of Q-Learning is expressed in the so-called [Bellman Equation](https://en.wikipedia.org/wiki/Bellman_equation):
 
 <div>
-<img src="images\bellman.gif" width="400" align="top-left"/> 
+<img src="images\bellman_equation.gif" width="400" align="top-left"/> 
 </div>
 
 *Wikipedia*: It writes the "value" of a decision problem at a certain point in time in terms of the payoff from some initial choices and the "value" of the remaining decision problem that results from those initial choices.
