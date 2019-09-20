@@ -31,7 +31,7 @@ The goal of the agent is to choose the sequence of actions that will eventually 
 
 This is known as a `greedy policy`. However, it should not focus on the earliest positive actions to the exclusion of any further explorations which might lead to more learning and even better actions - so the model must still explore new actions. This is described as the *exploration vs exploitation dilemma*. 
 
-To enforce continued exploration the greedy policy is ameliorated by a factor that introduces a degree of randomness - thus ensuring new choices are made. However, as the model establishes for sure what are the best actions then this randomness should reduce or *decay*. The greek symbol `epsilon` **$ε$** is used to describe the adjustment factor, and the improved policy is known as an `epsilon greedy policy`. It has a starting rate for the amount of random choice, a decay rate to gradually decrease the randomness, and a finishing rate.  
+To enforce continued exploration the greedy policy is ameliorated by a factor that introduces a degree of randomness - thus ensuring new choices are made. However, as the model establishes for sure what are the best actions then this randomness should reduce or *decay*. The greek symbol `epsilon` **ε** is used to describe the adjustment factor, and the improved policy is known as an `epsilon greedy policy`. It has a starting rate for the amount of random choice, a decay rate to gradually decrease the randomness, and a finishing rate.  
 
 ### The Q-Learning algorithm
 
