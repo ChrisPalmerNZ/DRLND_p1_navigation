@@ -8,7 +8,8 @@ See the `readme.md` for background information for the project and how to set up
 
 ### Reinforcement Learning Summary
 <div>
-<img src="images\agent_environment.png" alt="agent_environment" width="500" align="top-left"/> </div>
+<img src="images\agent_environment.png" alt="agent_environment" width="500" align="top-left"/> 
+</div>
 
 *The agent-environment interaction in reinforcement learning. (Source: Sutton and Barto, 2017)*
 
@@ -36,7 +37,9 @@ To enforce continued exploration the greedy policy is ameliorated by a factor th
 
 The mathematical basis of Q-Learning is expressed in the so-called [Bellman Equation](https://en.wikipedia.org/wiki/Bellman_equation):
 
-$$Q(s, a)=r(s, a)+\gamma \max _{a} Q\left(s^{\prime}, a\right)$$
+<div>
+<img src="images\bellman.gif" width="400" align="top-left"/> 
+</div>
 
 *Wikipedia*: It writes the "value" of a decision problem at a certain point in time in terms of the payoff from some initial choices and the "value" of the remaining decision problem that results from those initial choices.
 
@@ -50,13 +53,19 @@ So, the equation is saying:
 
 The **Q-Learning (Sarsamax)** algorithm is an implementation of this, and can be presented like this:
 
-$${\displaystyle Q(s_{t},a_{t})\leftarrow (1-\alpha )\cdot \underbrace {Q(s_{t},a_{t})} _{\rm {old~value}}+\underbrace {\alpha } _{\rm {learning~rate}}\cdot \overbrace {{\bigg (}\underbrace {r_{t+1}} _{\rm {reward}}+\underbrace {\gamma } _{\rm {discount~factor}}\cdot \underbrace {\max _{a}Q(s_{t+1},a)} _{\rm {estimate~of~optimal~future~value}}{\bigg )}} ^{\rm {learned~value}}}$$
+<div>
+<img src="images\q_learning.gif" align="top-left"/> 
+</div>
 
 The learning rate establishes the size of the incremental steps the model must take. The discount factor is used the determine how much to balance current award with estimated future award. 
 
 In more summary form the equation for updating (say) $Q(s_0, a_0)$ is:
     
-$$Q(s_{0},a_{0})\leftarrow (1-\alpha )\cdot Q(s_{0},a_{0}) + \alpha \cdot (r_1 + \gamma \max_aQ(s_1,a))$$
+<div>
+<img src="images\q_learning_example.gif" align="top-left"/> 
+</div>
+
+##### &nbsp;
 
 In Python code with a concrete example:
 ```python
@@ -72,6 +81,7 @@ Qsa_next = -0.6   # optimal future value that would be obtained by this Qsa
 
 -2.88
 ```
+##### &nbsp;
 
 ### Deep Q-Learning
 
