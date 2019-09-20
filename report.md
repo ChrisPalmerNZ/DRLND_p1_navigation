@@ -356,7 +356,7 @@ With [Noisy DQN](https://arxiv.org/abs/1706.10295) noise is added to the weights
 In addition to the 4 improvements introduced above, [Rainbow](https://arxiv.org/abs/1710.02298) adds another two - [multi-step bootstrap targets](https://arxiv.org/abs/1602.01783) and [Distributional DQN](https://arxiv.org/abs/1707.06887). All of these six improvements address different issues with DQN, Rainbow combines them to create a model that vastly outperforms any one of them including of course the original DQN:
 
 <div>
-<img src="images/rainbow.PNG" width="550px" align="top-left"/>
+<img src="images/rainbow.png" width="550px" align="top-left"/>
 </div>
 
 ##### &nbsp;
