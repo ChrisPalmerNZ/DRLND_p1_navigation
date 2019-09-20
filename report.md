@@ -59,7 +59,7 @@ The **Q-Learning (Sarsamax)** algorithm is an implementation of this, and can be
 
 The learning rate establishes the size of the incremental steps the model must take. The discount factor is used the determine how much to balance current award with estimated future award. 
 
-In more summary form the equation for updating (say) $Q(s_0, a_0)$ is:
+In more summary form the equation for updating (say) `Q(s0, a0)` is:
     
 <div>
 <img src="images\q_learning_example.gif" align="top-left"/> 
