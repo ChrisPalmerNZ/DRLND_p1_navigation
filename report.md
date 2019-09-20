@@ -46,10 +46,10 @@ The mathematical basis of Q-Learning is expressed in the so-called [Bellman Equa
 That is, the sequence of actions that will eventually generate the highest reward. The cumulative reward is referred to as Q Value (an abbreviation of *Quality Value*).
 
 So, the equation is saying:
-- $Q(s, a)$ expresses the *Quality Value* (Q Value) of state $s$ and action $a$
-- and is derived from the *immediate reward* of the current state and action choice $r(s, a)$
-- plus the highest possible Q Value we can possibly derive from actions in states we can take after this choice $\max _{a} Q\left(s^{\prime}, a\right)$
-- discounted by $\gamma$ to control the importance of long-term rewards versus the immediate reward
+- `Q(s, a)` expresses the *Quality Value* (Q Value) of state `s` and action `a`
+- and is derived from the *immediate reward* of the current state and action choice `r(s, a)`
+- plus the highest possible Q Value we can possibly derive from actions in states we can take after this choice `max a Q(s',a)`
+- discounted by `gamma` to control the importance of long-term rewards versus the immediate reward
 
 The **Q-Learning (Sarsamax)** algorithm is an implementation of this, and can be presented like this:
 
