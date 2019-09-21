@@ -100,6 +100,7 @@ Some essential components of it are that it:
 - can evaluate the state and action space
 - returns actions for the current state per the policy
 - learns from the consequentual rewards 
+- can use both double DQN and duelling architectures (see section "Other Experiments and Ideas for future work")
 - employs **Experience Replay Memory** to keep track of what actions have been previously taken 
 
 #### Experience Replay
@@ -206,7 +207,7 @@ The conclusion after experimentation was to note that the model was somewhat res
 
 ## 5. Comparisons of parameters and results
 <div>
-<img src="images/run_results.PNG" align="top-left"/>
+<img src="images/run_results_2.PNG" align="top-left"/>
 </div>
 
 ##### &nbsp;
@@ -236,9 +237,11 @@ QNetwork(
 
 Although this run was the quickest to get the required score, in fact the other runs where the epsilon rate was not so strongly decreased are measurably better models - for instance the average for run 6 is 13.06 which is 0.05  better than run 7, at 13.01. 
 
-**When the performance of the trained models was measured over 10 episodes, it was found that the actual best model was the one coming from run 6.**
+**When the performance of the trained models was measured over 10 episodes, it was found that the actual best standard DQN model was the one coming from run 6.**
 
-The run 7 model had a poorer strategy for not getting stuck behind a blue banana whereas the other models did better (they all got stuck sometimes). That is, when encountering a blue banana in some positions the agent's point of view would just oscillate wildly left and right but not back off and move around the banana - getting stuck and therefore not scoring well. The agent trained in Run 7 did worse in this scenario, and the agent trained in Run 6 did best.
+The run 7 model had a poorer strategy for not getting stuck behind a blue banana whereas the other models did better (they all got stuck sometimes). That is, when encountering a blue banana in some positions the agent's point of view would just oscillate wildly left and right but not back off and move around the banana - getting stuck and therefore not scoring well. The agent trained in Run 7 did worse in this scenario, and the agent trained in Run 6 did best. 
+
+The **Double DQN** outperformed all models when the trained model was evaluated 
 
 <div>
 <img src="images/stuck_behind_blue.PNG" width="450" align="top-left"/>
@@ -246,7 +249,8 @@ The run 7 model had a poorer strategy for not getting stuck behind a blue banana
 
 *Stuck behind a blue banana*
 
-### The **actual** best training run
+### The **actual** best standard model training run
+- For a standard DQN model
 - Based on getting the best scores with a trained model
 
 ####    Run 6
@@ -271,11 +275,40 @@ QNetwork(
 <img src="images/run_6.PNG" align="top-left"/>
 </div>
 
+### The overall best model
+- Double DQN model
+- Evaluated on trained model over 10 runs
+
+#### Run 10
+```
+duelling=False, double = True
+
+eps_start=0.99, eps_decay=0.97, eps_end=0.03
+
+Episode 100	Average Score: 5.50
+Episode 200	Average Score: 10.79
+Episode 295	Average Score: 13.05
+Environment solved in 195 episodes!	Average Score: 13.05
+
+QNetwork(
+  (fc1): Linear(in_features=37, out_features=80, bias=True)
+  (fc2): Linear(in_features=80, out_features=70, bias=True)
+  (fc3): Linear(in_features=70, out_features=4, bias=True)
+  (state_value): Linear(in_features=70, out_features=1, bias=True)
+)
+````
+<div>
+<img src="images/run_10.PNG" align="top-left"/>
+</div>
+
+
 ##### &nbsp;
 
 ## 6. Comparing trained models
 As described above, when trained models were assessed over 10 runs then the model obtained on run 6 performed the best. The following are test run results for the agent trained on run 6 vs the agent trained on run 7. The run 6 agent consistently performs better, only falling below 13 on one episode in each group. 
 The other models were also evaluated with test runs and none of them did as well as the Run 6 model.
+
+**NOTE:** The actual best model was a **Double DQN** - see section below the standard model comparisons
 
 ```
 Agent trained on Run 6
@@ -330,24 +363,79 @@ Episode 9    Average Score: 13.11
 Episode 10   Average Score: 13.60
 ```
 
-See the notebook for detailed results of the tests and the other runs...
+**Additionally (see "Other Experiments and Ideas for future work"), duelling and double DQN architectures were trialled....**
+
+
+The **Double DQN** architecture was somewhat better at handling the environment than any other architecture: 
+
+```
+Agent trained with Double DQN (run 10)
+
+Episode 1    Average Score: 20.00
+Episode 2    Average Score: 20.00
+Episode 3    Average Score: 14.33
+Episode 4    Average Score: 16.25
+Episode 5    Average Score: 17.60
+Episode 6    Average Score: 15.83
+Episode 7    Average Score: 16.43
+Episode 8    Average Score: 16.88
+Episode 9    Average Score: 17.00
+Episode 10   Average Score: 15.80
+```
+
+The **Duelling DQN** architecture performed similarly to the standard DQN of model 6:
+```
+Agent trained with Duelling DQN (run 8)
+
+Episode 1    Average Score: 16.00
+Episode 2    Average Score: 12.00
+Episode 3    Average Score: 12.33
+Episode 4    Average Score: 13.50
+Episode 5    Average Score: 13.60
+Episode 6    Average Score: 13.83
+Episode 7    Average Score: 14.57
+Episode 8    Average Score: 14.38
+Episode 9    Average Score: 14.56
+Episode 10   Average Score: 14.60
+```
+A combined duelling and double version was not as good:
+```
+Agent trained with Duelling AND Double DQN (run 9)
+
+Episode 1    Average Score: 12.00
+Episode 2    Average Score: 16.00
+Episode 3    Average Score: 14.00
+Episode 4    Average Score: 14.75
+Episode 5    Average Score: 11.60
+Episode 6    Average Score: 13.17
+Episode 7    Average Score: 12.29
+Episode 8    Average Score: 11.12
+Episode 9    Average Score: 12.33
+Episode 10   Average Score: 13.10
+```
+
+**See the notebook for detailed results of the tests and the other runs...**
 
 ##### &nbsp;
 
-## 7. Ideas for future work
+## 7. Other Experiments and Ideas for future work
 
-This is a basic implementation of Deep Q-Learning. There are other methods that have been proven to adjust for the weaknesses in the basic approach, which are that the model can innacurately estimate the correct repsonses based just on what it has discovered by chance. 
+Runs 1 to 7 were using the standard implementation of Deep Q-Learning. There are other methods that have been proven to adjust for the weaknesses in the basic approach, which are that the model can innacurately estimate the correct repsonses based just on what it has discovered by chance. 
 
 These ideas are taken from [Deep Q-Learning Improvements](https://classroom.udacity.com/nanodegrees/nd893-ent/parts/b5175725-8f50-4cd9-8666-fd4c1375039c/modules/56dab924-27c9-43ab-b898-3bdab18f6fd2/lessons/4adf70aa-0c4c-4a48-8bbe-e3619874f234/concepts/9cf78c93-e31a-40a1-bea3-c0f3509fd2f3) in the Udacity Deep Reinforcement Learning Nanodegree...
 
-#### a. Double Deep Q-Network (DDQN)
-Deep Q-Learning [tends to overestimate](https://www.ri.cmu.edu/pub_files/pub1/thrun_sebastian_1993_1/thrun_sebastian_1993_1.pdf) action values. [Double Q-Learning](https://arxiv.org/abs/1509.06461) has been shown to work well in practice to help with this. In DDQN the discovery and evaluation of the best actions are separated.  
+#### a. Double Deep Q-Network (DDQN) 
+- This was implemented in Run 10  
+- Deep Q-Learning [tends to overestimate](https://www.ri.cmu.edu/pub_files/pub1/thrun_sebastian_1993_1/thrun_sebastian_1993_1.pdf) action values. [Double Q-Learning](https://arxiv.org/abs/1509.06461) has been shown to work well in practice to help with this. In DDQN the discovery and evaluation of the best actions are separated.  
+- This model performed better than any others trialled, when testing the trained model
 
-#### b. Prioritized Experience Replay
+#### b. Duelling DQN
+- This was implemented in Run 8  
+- With standard DQN, in order to determine which states are (or are not) valuable, we have to estimate the corresponding action values for each action. However, by replacing the traditional Deep Q-Network (DQN) architecture with a [duelling architecture](https://arxiv.org/abs/1511.06581), we can assess the value of each state, without having to learn the effect of each action. 
+- This performed similarly to the best standard model
+
+#### c. Prioritized Experience Replay
 Deep Q-Learning samples experience transitions uniformly from a replay memory. [Prioritized experienced replay](https://arxiv.org/abs/1511.05952) is based on the idea that the agent can learn more effectively from some transitions than from others, and the more important transitions should be sampled with higher probability.
-
-#### c. Dueling DQN
-With standard DQN, in order to determine which states are (or are not) valuable, we have to estimate the corresponding action values for each action. However, by replacing the traditional Deep Q-Network (DQN) architecture with a [dueling architecture](https://arxiv.org/abs/1511.06581), we can assess the value of each state, without having to learn the effect of each action. 
 
 #### d. Noisy DQN
 With [Noisy DQN](https://arxiv.org/abs/1706.10295) noise is added to the weights to add an irregularity to the agent's policy, which can result in more varied exploration and the discovery of better strategies.

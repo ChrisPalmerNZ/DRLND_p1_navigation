@@ -20,7 +20,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class Agent():
     """Interacts with and learns from the environment."""
 
-    def __init__(self, state_size, action_size, seed, fc1_units = 64, fc2_units = 64):
+    def __init__(self, state_size, action_size, seed, fc1_units = 64, fc2_units = 64, duelling=False, double=False):
         """Initialize an Agent object.
         
         Params
@@ -29,15 +29,19 @@ class Agent():
             action_size (int): dimension of each action
             seed (int): random seed
             fc1_units (int): fully connected layer 1 size
-            fc2_units (int): fully connected layer 2 size            
+            fc2_units (int): fully connected layer 2 size   
+            duelling (bool): if 'True' use duelling agent
+            double (bool): if 'True' use double agent (DDQN)
         """
         self.state_size = state_size
         self.action_size = action_size
         self.seed = random.seed(seed)
+        self.duelling = duelling
+        self.double = double
 
         # Q-Network
-        self.qnetwork_local = QNetwork(state_size, action_size, seed, fc1_units, fc2_units).to(device)
-        self.qnetwork_target = QNetwork(state_size, action_size, seed, fc1_units, fc2_units).to(device)
+        self.qnetwork_local = QNetwork(state_size, action_size, seed, fc1_units, fc2_units, duelling=duelling).to(device)
+        self.qnetwork_target = QNetwork(state_size, action_size, seed, fc1_units, fc2_units, duelling=duelling).to(device)
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
 
         # Replay memory
@@ -88,7 +92,12 @@ class Agent():
         states, actions, rewards, next_states, dones = experiences
 
         # Get max predicted Q values (for next states) from target model
-        Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
+        if self.double:
+            indices = torch.argmax(self.qnetwork_local(next_states).detach(),1)
+            Q_targets_next = self.qnetwork_target(next_states).detach().gather(1,indices.unsqueeze(1))
+        else:
+            Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
+            
         # Compute Q targets for current states 
         Q_targets = rewards + (gamma * Q_targets_next * (1 - dones))
 
