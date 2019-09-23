@@ -87,7 +87,7 @@ Qsa_next = -0.6   # optimal future value that would be obtained by this Qsa
 
 Q-Learning requires keeping a table (**Q-Table**) of the scores and possible future scores of the states and actions so far explored (Q values). **Deep Q-Learning** harnesses the power of neural networks, where the neural net learns optimal behaviours with an *approximation* of Q values and stores them in its weights. 
 
-The requirement to use an *epsilon greedy* policy is included through an occasional random choice for an action, rather than only following what the neural network has been determined as the best known path.
+The requirement to use an *epsilon greedy* policy is included through an occasional random choice for an action, rather than only following what the neural network has determined as the best known path.
 
 ##### &nbsp;
 
@@ -207,7 +207,7 @@ The conclusion after experimentation was to note that the model was somewhat res
 
 ## 5. Comparisons of parameters and results
 <div>
-<img src="images/run_results_2.PNG" align="top-left"/>
+<img src="images/run_results_2.PNG" width="750" align="top-left"/>
 </div>
 
 ##### &nbsp;
@@ -276,7 +276,7 @@ QNetwork(
 </div>
 
 ### The overall best model
-- Double DQN model
+- **Double DQN** model
 - Evaluated on trained model over 10 runs
 
 #### Run 10
